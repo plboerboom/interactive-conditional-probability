@@ -1,9 +1,7 @@
-var width = 1200;
+var leftPadding = 15;
+var rightPadding = 15;
+
 var height = 120;
-var cellCountH = 100;
-var cellCountV = 10;
-var cellWidth = width / cellCountH;
-var cellHeight = height / cellCountV;
 var probA = 0.05;
 var probBGivenA = 0.9;
 var probBGivenNotA;
@@ -17,24 +15,27 @@ function setup() {
     $('#probA').slider({
         formatter: function(value) {
             probA = value;
+            window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
     });
     $('#probBGivenA').slider({
         formatter: function(value) {
             probBGivenA = value;
+            window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
     });
     $('#probBGivenNotA').slider({
         formatter: function(value) {
             probBGivenNotA = value;
+            window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
     });
     var canvas = document.createElement("canvas");
     canvas.id = "mainCanvas";
-    canvas.width = width;
+    canvas.width = window.innerWidth;
     canvas.height = height;
 
     var devicePixelRatio = window.devicePixelRatio;
@@ -46,33 +47,49 @@ function setup() {
 
         var ratio = devicePixelRatio / backingStoreRatio;
 
+        canvas.style.width = canvas.width + 'px';
+        canvas.style.height = height + 'px';
+
         canvas.width = canvas.width * ratio;
         canvas.height = canvas.height * ratio;
 
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-
         context.scale(ratio, ratio);
     }
+
+    console.log(canvas.width);
+    console.log(canvas.height);
+
     window.requestAnimFrame(draw);
 }
 
 function draw() {
+    var devicePixelRatio = window.devicePixelRatio;
+    var canvas = document.getElementById('mainCanvas');
+    if (canvas.getContext) {
+        var context = canvas.getContext('2d');
+        backingStoreRatio = context.webkitBackingStorePixelRatio;
+        var ratio = devicePixelRatio / backingStoreRatio;
+    }
+
+    var width = canvas.width / ratio - leftPadding - rightPadding;
+    var height = canvas.height /ratio;
+
+    var probARect = {
+        left: leftPadding,
+        top: 0,
+        width: probA * width,
+        height: height
+    };
+
     var probAWidth = probA * width;
     var probACompWidth = width - probAWidth;
     var probBGivenAWidth = probAWidth * probBGivenA;
     var probBGivenNotAWidth = probBGivenNotA * probACompWidth;
 
-    window.requestAnimFrame(draw);
-    var canvas = document.getElementById('mainCanvas');
     if (canvas.getContext) {
         var context = canvas.getContext('2d');
         
         context.clearRect(0, 0, canvas.width, canvas.height);
-
-        context.strokeStyle = "rgba(0, 0, 0, 1.0)";
-        context.lineWidth = 1;
-        context.clearRect(0, 0, width, height);
 
         context.fillStyle = probAColor;
         context.fillRect(0, 0, probAWidth, height);

@@ -27,7 +27,7 @@ gulp.task('build-site', function() {
     .pipe(gulp.dest('public/'));
 });
 
-gulp.watch('src/*', ['lint', 'build-site']);
+gulp.watch('src/**/*', ['lint', 'build-site']);
 
 
 gulp.task('default', ['lint', 'build-site']);
