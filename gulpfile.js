@@ -3,6 +3,9 @@ var gulp = require('gulp');
 var alljs = 'src/javascript/**/*.js';
 
 var jshint = require('gulp-jshint'),
+    usemin = require('gulp-usemin'),
+    minifyCss = require('gulp-minify-css'),
+    debug = require('gulp-debug'),
     concat = require('gulp-concat');
 
 gulp.task('lint', function() {
@@ -11,16 +14,20 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('copyhtml', function() {
-    gulp.src('src/*.html').pipe(gulp.dest('public'));
+gulp.task('build-site', function() {
+    return gulp.src('./src/index.html')
+    .pipe(debug({title: 'dbg'}))
+    .pipe(usemin({
+        js: ['concat'],
+        jsd: ['concat'],
+        cssd: ['concat'],
+        css: ['concat']
+    }))
+    .pipe(debug({title: 'after'}))
+    .pipe(gulp.dest('public/'));
 });
 
-//gulp.watch('src/javascript/**/*.js', ['lint']);
+gulp.watch('src/*', ['lint', 'build-site']);
 
-gulp.task('build-js', function() {
-    return gulp.src(alljs)
-    .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('public/javascript'))
-} )
 
-gulp.task('default', ['lint', 'copyhtml', 'build-js']);
+gulp.task('default', ['lint', 'build-site']);
