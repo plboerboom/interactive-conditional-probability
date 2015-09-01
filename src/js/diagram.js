@@ -109,7 +109,7 @@ function getRandomIntInclusive(min, max) {
 }
 
 
-var colors = ["rgba(0, 100, 0, 0.05)", "rgba(0, 0, 100, 0.05)"]
+var colors = ["rgba(0, 100, 0, 0.05)", "rgba(0, 0, 100, 0.05)"];
 
 window.requestAnimFrame = (function(){ 
   return  window.requestAnimationFrame       ||  
