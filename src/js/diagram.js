@@ -77,7 +77,6 @@
         height: universeHeight,
         color: "rgba(0, 0, 255, 0.5)"
     };
-    console.log(eventNotA.left);
 
     var eventBGivenA = {
         probability: 0.8,
@@ -108,7 +107,6 @@
     function drawEvent(e) {
         context.save();
         context.fillStyle = e.color;
-        console.log(e.left);
         context.translate(leftPadding, universeTop);
         context.fillRect(e.left, e.top, e.width, e.height);
         context.restore();
@@ -122,6 +120,10 @@
 //        var probBGivenAWidth = probAWidth * probBGivenA;
 //        var probBGivenNotAWidth = probBGivenNotA * probACompWidth;
 
+        drawEvent(eventA);
+        drawEvent(eventNotA);
+        drawEvent(eventBGivenA);
+        drawEvent(eventBGivenNotA);
 
 //        context.save();
 //        context.fillStyle = probAColor;
@@ -166,7 +168,7 @@
 
     $('#probA').slider({
         formatter: function(value) {
-            probA = value;
+            eventA.probability = value;
             window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
@@ -174,7 +176,7 @@
 
     $('#probBGivenA').slider({
         formatter: function(value) {
-            probBGivenA = value;
+            eventBGivenA.probability = value;
             window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
@@ -182,7 +184,7 @@
     
     $('#probBGivenNotA').slider({
         formatter: function(value) {
-            probBGivenNotA = value;
+            eventBGivenNotA.probability = value;
             window.requestAnimFrame(draw);
             return 'Current value: ' + value;
         }
