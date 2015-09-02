@@ -9,7 +9,22 @@
     var eventA = {
         probability: 0.2,
         color: "rgba(0, 0, 255, 0.1)" 
-    }
+    };
+
+    var eventNotA = {
+        probability: 1 - eventA.probability,
+        color: "rgba(0, 0, 255, 0.5)"
+    };
+
+    var eventBGivenA = {
+        probability: 0.9,
+        color: "rgba(0, 255, 0, 0.3)"
+    };
+
+    var eventBGivenNotA = {
+        probability: 0.5,
+        color: "rgba(0, 255, 0, 0.3)"
+    };
 
     var probA = 0.05;
     var probBGivenA = 0.9;
