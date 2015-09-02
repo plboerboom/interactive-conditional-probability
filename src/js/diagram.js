@@ -6,6 +6,10 @@
     var universeTop = universeHeight / 2;
     var universeLeft = leftPadding;
 
+    var labelPositions = {
+        TOP: 0,
+        BOTTOM: 1
+    }
 
     var probA = 0.05;
     var probBGivenA = 0.9;
@@ -53,6 +57,8 @@
     }
 
     var eventA = {
+        label: "P(A)",
+        labelPosition: labelPositions.TOP,
         probability: 0.2,
         left: 0,
         top: 0,
@@ -64,6 +70,8 @@
     };
 
     var eventNotA = {
+        label: "P(~A)",
+        labelPosition: labelPositions.TOP,
         get probability() {
             return 1 - eventA.probability;
         },
@@ -72,13 +80,15 @@
         },
         top: 0,
         get width() {
-            return universeWidth - eventA.width;
+            return this.probability * universeWidth;
         },
         height: universeHeight,
         color: "rgba(0, 0, 255, 0.5)"
     };
 
     var eventBGivenA = {
+        label: "P(B | A)",
+        labelPosition: labelPositions.BOTTOM,
         probability: 0.8,
         get left() {
             return eventA.width - this.width;
@@ -92,6 +102,8 @@
     };
 
     var eventBGivenNotA = {
+        label: "P(B | ~A)",
+        labelPosition: labelPositions.BOTTOM,
         probability: 0.5,
         get left() {
             return eventA.width;
@@ -110,6 +122,33 @@
         context.translate(leftPadding, universeTop);
         context.fillRect(e.left, e.top, e.width, e.height);
         context.restore();
+
+        context.save();
+        context.strokeStyle = 'black';
+        context.lineWidth = 1;
+        context.translate(leftPadding, overallHeight/2);
+        if (e.labelPosition == labelPositions.BOTTOM) {
+            context.scale(1, -1);
+        }
+        context.translate(0, - (universeHeight/2 + 5));
+        context.beginPath();
+        context.moveTo(e.left + e.width / 2, -10);
+        context.lineTo(e.left + e.width / 2, -20);
+        context.moveTo(e.left + 2, 0);
+        context.lineTo(e.left + 5, -10);
+        context.lineTo(e.left + e.width - 5, -10);
+        context.lineTo(e.left + e.width - 2, 0);
+        context.stroke();
+        context.closePath();
+        var textOffset = -30;
+        if (e.labelPosition == labelPositions.BOTTOM) {
+            context.scale(1, -1);
+            textOffset = 30;
+        }
+        var text = e.label + " = "+ e.probability;
+        var tm = context.measureText(text);
+        context.fillText(text, e.left + e.width / 2 - tm.width / 2, textOffset);
+        context.restore();
     }
 
     function draw() {
@@ -124,6 +163,16 @@
         drawEvent(eventNotA);
         drawEvent(eventBGivenA);
         drawEvent(eventBGivenNotA);
+
+        context.save();
+        context.font = "12pt Helvetica";
+        var probAGivenB = eventBGivenA.width / (eventBGivenA.width + eventBGivenNotA.width);
+        var text = "P(A | B) = " + probAGivenB;
+        var tm = context.measureText(text);
+        context.translate(eventBGivenA.left + eventBGivenA.width / 2 - tm.width / 2,
+                universeTop + 60);
+        context.fillText(text, 0, 0);
+        context.restore();
 
 //        context.save();
 //        context.fillStyle = probAColor;
