@@ -154,11 +154,6 @@
     function draw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-//        var probAWidth = probA * universeWidth;
-//        var probACompWidth = universeWidth - probAWidth;
-//        var probBGivenAWidth = probAWidth * probBGivenA;
-//        var probBGivenNotAWidth = probBGivenNotA * probACompWidth;
-
         drawEvent(eventA);
         drawEvent(eventNotA);
         drawEvent(eventBGivenA);
@@ -174,44 +169,6 @@
         context.fillText(text, 0, 0);
         context.restore();
 
-//        context.save();
-//        context.fillStyle = probAColor;
-//        context.fillRect(universeLeft, universeTop, probAWidth, universeHeight);
-//        context.strokeStyle = 'black';
-//        context.beginPath();
-//        context.moveTo(universeLeft, universeTop - 10);
-//        context.lineTo(universeLeft + 5, universeTop - 20);
-//        context.lineTo(universeLeft + probAWidth - 5, universeTop - 20);
-//        context.lineTo(universeLeft + probAWidth, universeTop - 10);
-//        context.stroke();
-//        context.closePath();
-//        context.restore();
-//        context.save();
-//        context.translate(probAWidth / 2, 0);
-//        context.beginPath();
-//        context.moveTo(0, 0);
-//        context.lineTo(0, 200);
-//        context.stroke();
-//        context.closePath();
-//        context.restore();
-//
-//        context.save();
-//        context.fillStyle = probACompColor;
-//        context.translate(probAWidth, 0);
-//        context.fillRect(universeLeft, universeTop, probACompWidth, universeHeight);
-//        context.restore();
-//
-//        context.fillStyle = probBColor;
-//
-//        context.save();
-//        context.translate(probAWidth - probBGivenAWidth, 0);
-//        context.fillRect(universeLeft, universeTop, probBGivenAWidth, universeHeight);
-//        context.restore();
-//
-//        context.save();
-//        context.translate(probAWidth, 0);
-//        context.fillRect(universeLeft, universeTop, probBGivenNotAWidth, universeHeight);
-//        context.restore();
 
     }
 
