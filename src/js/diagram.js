@@ -1,7 +1,7 @@
 (function() {
     var overallHeight = 240;
-    var leftPadding = 15;
-    var rightPadding = 15;
+    var leftPadding = 40;
+    var rightPadding = 40;
     var universeHeight = overallHeight / 2;
     var universeTop = universeHeight / 2;
     var universeLeft = leftPadding;
