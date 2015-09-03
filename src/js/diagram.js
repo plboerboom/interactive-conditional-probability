@@ -140,14 +140,15 @@
         context.lineTo(e.left + e.width - 2, 0);
         context.stroke();
         context.closePath();
-        var textOffset = -30;
+        var text = e.label + " = "+ e.probability;
+        context.font = "10pt Helvetica";
+        var tm = context.measureText(text);
+        var textOffsetV = -30;
         if (e.labelPosition == labelPositions.BOTTOM) {
             context.scale(1, -1);
-            textOffset = 30;
+            textOffsetV = -textOffsetV;
         }
-        var text = e.label + " = "+ e.probability;
-        var tm = context.measureText(text);
-        context.fillText(text, e.left + e.width / 2 - tm.width / 2, textOffset);
+        context.fillText(text, e.left + e.width / 2 - tm.width / 2, textOffsetV);
         context.restore();
     }
 
@@ -161,10 +162,13 @@
 
         context.save();
         context.font = "12pt Helvetica";
-        var probAGivenB = eventBGivenA.width / (eventBGivenA.width + eventBGivenNotA.width);
+        context.fillStyle = 'rgba(0, 100, 100, 0.8)';
+        var rawNum = (eventBGivenA.width
+                / (eventBGivenA.width + eventBGivenNotA.width));
+        var probAGivenB = Math.round((rawNum + 0.00001) * 100) / 100;
         var text = "P(A | B) = " + probAGivenB;
         var tm = context.measureText(text);
-        context.translate(eventBGivenA.left + eventBGivenA.width / 2 - tm.width / 2,
+        context.translate(eventBGivenA.left + eventBGivenA.width / 2,
                 universeTop + 60);
         context.fillText(text, 0, 0);
         context.restore();
